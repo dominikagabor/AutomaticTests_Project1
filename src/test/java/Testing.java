@@ -22,20 +22,55 @@ public class Testing {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   // @Test
-    public void Scenario001() throws SQLException {
+    //@Test
+    public void Scenario001_Login() throws SQLException {
 
         // For editing:
-        String numberUrl = "1"; // table: agdb.url
-        String numberUser = "2"; // table agdb.login
-        String nameMainDropdown = "Pracownicy"; // table agdb.maindropdown
-        String nameLateralDropdown = "Umowyx"; // table agdb.lateraldropdown
+        String numberUrl = "1"; // table: url
+        String numberUser = "2"; // table login
 
         String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
         String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
         String password = database.GetStringValueFromDatabase("password", "login", "idUser", numberUser);
         ChromeDriver();
-        statements.ScenarioTitle("Scenario - Navigate");
+        statements.ScenarioTitle("Scenario001_Login");
+        methods.NavigateToPage(mainUrl);
+        System.out.println("---------------------------------------------------");
+        methods.Login(login, password);
+        System.out.println("---------------------------------------------------");
+    }
+
+    //@Test
+    public void Scenario002_LoginAllUsers() throws SQLException {
+
+        // For editing:
+        String numberUrl = "1"; // table: url
+
+        String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
+        ChromeDriver();
+        statements.ScenarioTitle("Scenario002_LoginAllUsers");
+        methods.NavigateToPage(mainUrl);
+        System.out.println("---------------------------------------------------");
+        methods.LoginAll();
+        System.out.println("---------------------------------------------------");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //@Test
+    public void Scenario003_Navigate() throws SQLException {
+
+        // For editing:
+        String numberUrl = "1"; // table: url
+        String numberUser = "2"; // table: login
+        String nameMainDropdown = "Pracownicy"; // table: maindropdown
+        String nameLateralDropdown = "Umowy"; // table: lateraldropdown
+
+        String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
+        String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
+        String password = database.GetStringValueFromDatabase("password", "login", "idUser", numberUser);
+        ChromeDriver();
+        statements.ScenarioTitle("Scenario003_Navigate");
         methods.NavigateToPage(mainUrl);
         System.out.println("---------------------------------------------------");
         methods.Login(login, password);
@@ -44,23 +79,60 @@ public class Testing {
         System.out.println("---------------------------------------------------");
     }
 
-    @Test
-    public void Scenario002() throws SQLException {
+    //@Test
+    public void Scenario004_NavigateToAllMainMenu() throws SQLException {
 
         // For editing:
-        String numberUrl = "1"; // table: agdb.url
-        String numberUser = "2"; // table agdb.login
+        String numberUrl = "1"; // table: url
+        String numberUser = "2"; // table login
 
         String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
         String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
         String password = database.GetStringValueFromDatabase("password", "login", "idUser", numberUser);
         ChromeDriver();
-        statements.ScenarioTitle("Scenario - Navigate");
+        statements.ScenarioTitle("Scenario004_NavigateToAllMainMenu");
         methods.NavigateToPage(mainUrl);
         System.out.println("---------------------------------------------------");
         methods.Login(login, password);
         System.out.println("---------------------------------------------------");
         methods.NavigateToAllMainMenu();
         System.out.println("---------------------------------------------------");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void Scenario005_Profil() throws SQLException {
+
+        // For editing:
+        String numberUrl = "1"; // table: url
+        String numberUser = "2"; // table: login
+        String[] sliders = {"Rejestracja paraktykanta - Aktywne", "Premie - Aktywne"};
+
+        String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
+        String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
+        String password = database.GetStringValueFromDatabase("password", "login", "idUser", numberUser);
+        ChromeDriver();
+        statements.ScenarioTitle("Scenario005_Profil - Navigate");
+        methods.NavigateToPage(mainUrl);
+        System.out.println("---------------------------------------------------");
+        methods.Login(login, password);
+        System.out.println("---------------------------------------------------");
+        methods.NavigateToMainMenu("Profil", "Profil");
+      /*  System.out.println("---------------------------------------------------");
+        methods.TurnOn2FA();
+        System.out.println("---------------------------------------------------");
+        methods.NavigateToMainMenu("Profil", "Profil");
+        methods.ClickHereToDieInstantly();
+        System.out.println("---------------------------------------------------");
+        methods.NavigateToPageAlreadyLogin(mainUrl);
+        System.out.println("---------------------------------------------------");
+        methods.NavigateToMainMenu("Profil", "Profil");
+        System.out.println("---------------------------------------------------");
+
+       */
+        System.out.println("---------------------------------------------------");
+        methods.EditProfile();
+        methods.EditAccount(sliders);
     }
 }

@@ -115,6 +115,21 @@ class Methods {
         }
     }
 
+    // Go to the main link already login:
+    void NavigateToPageAlreadyLogin(String url) {
+        try {
+            driver.navigate().to(url);
+            WebElementFind("StronaGlowna", "Panel użytkownika", "Label");
+            driver.manage().window().maximize();
+            statements.TestPassed("Navigate to page");
+            statements.AddText("Url", url, "GREEN");
+        } catch (Exception e) {
+            statements.TestFailed("Navigate to page");
+            statements.AddText("Error", String.valueOf(e), "RED");
+            StopDebbug();
+        }
+    }
+
     // Logging into the portal:
     boolean Login(String login, String password) throws SQLException {
         boolean correctorNotLogin;
@@ -277,5 +292,52 @@ class Methods {
             statements.AddTextNumber("Number of valid navigate", goodScore, countAllMenuLateral, "GREEN");
             statements.AddTextNumber("Number of invalid navigate", badScore, countAllMenuLateral, "RED");
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void TurnOn2FA() throws SQLException {
+        try {
+            WebElementFindAndClick("Profil", "Włącz 2FA", "Button");
+            statements.TestPassed("TurnOn2FA");
+        } catch (Exception e) {
+            statements.TestFailed("TurnOn2FA");
+            statements.AddText("Error", String.valueOf(e), "RED");
+        }
+    }
+
+    public void ClickHereToDieInstantly() throws SQLException {
+        try {
+            WebElementFindAndClick("Profil", "Click here to die instantly", "Button");
+            statements.TestPassed("Click here to die instantly");
+        } catch (Exception e) {
+            statements.TestFailed("ClickHereToDieInstantly");
+            statements.AddText("Error", String.valueOf(e), "RED");
+        }
+    }
+
+    public void EditProfile() throws SQLException {
+        try {
+            WebElementFindAndClick("Profil", "Edytuj", "Button");
+            statements.TestPassed("Edytuj profil");
+        } catch (Exception e) {
+            statements.TestFailed("Edytuj profil");
+            statements.AddText("Error", String.valueOf(e), "RED");
+        }
+    }
+
+    public void EditAccount(String[] sliders) throws SQLException {
+
+
+        String table = database.GetStringTableValueFromDatabase("name", "agdb.table", "tableName", "ProfilEdycja");
+
+        System.out.println(table);
+
+        //    System.out.println(table);
+        //String[] slidersName = {""}
+      /* for(int a = 0; a <= sliders.length; a+*
+        {
+           // if(sliders[a] == )
+        }
+        */
     }
 }

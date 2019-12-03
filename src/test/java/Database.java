@@ -62,6 +62,22 @@ public class Database {
         return value;
     }
 
+    // // Get value with two 'where':
+    String GetStringTableValueFromDatabase(String select, String from, String where, String whereValue) throws SQLException {
+        String value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        ResultSet result = st.executeQuery("select " + select + " from " + from + " where " + where + "='" + whereValue + "'");
+        while(result.next()) {
+
+            value = result.getString(1);
+
+
+        }
+        connection.close();
+        return value;
+    }
+
     // Get count of element in table with where:
     Integer GetCountFromTableWhere(String table, String where, String whereValue) throws SQLException {
         Integer value = null;
