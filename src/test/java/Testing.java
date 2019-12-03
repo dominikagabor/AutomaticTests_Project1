@@ -107,7 +107,8 @@ public class Testing {
         // For editing:
         String numberUrl = "1"; // table: url
         String numberUser = "2"; // table: login
-        String[] sliders = {"Rejestracja paraktykanta - Aktywne", "Premie - Aktywne"};
+        String[] sliders = {"2"}; // table: table
+        String[] values = {"aa TEST"};
 
         String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
         String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
@@ -133,6 +134,8 @@ public class Testing {
        */
         System.out.println("---------------------------------------------------");
         methods.EditProfile();
-        methods.EditAccount(sliders);
+        methods.EditAccount(sliders, values);
+        methods.EditAccountSave();
+        methods.CheckEditAccount(sliders);
     }
 }

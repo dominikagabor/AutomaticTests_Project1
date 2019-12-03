@@ -1,3 +1,4 @@
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -82,6 +83,13 @@ class Methods {
     // Wait until you find the WebElement, click WebElement and send keys:
     private void WebElementFindAndClickAndSendKeys(String menu, String name, String type, String sendKeys) throws SQLException {
         WebElement element = WebElementFindAndClick(menu, name, type);
+        element.clear();
+        element.sendKeys(sendKeys);
+    }
+
+    // Wait until you find the WebElement, click WebElement and send keys:
+    private void WebElementFindAndClickAndSendKeysWithXpath(String xpath, String sendKeys) throws SQLException {
+        WebElement element = driver.findElement(By.xpath(xpath));
         element.clear();
         element.sendKeys(sendKeys);
     }
@@ -318,26 +326,68 @@ class Methods {
     public void EditProfile() throws SQLException {
         try {
             WebElementFindAndClick("Profil", "Edytuj", "Button");
-            statements.TestPassed("Edytuj profil");
+            statements.TestPassed("Edit Account");
         } catch (Exception e) {
-            statements.TestFailed("Edytuj profil");
+            statements.TestFailed("Edit Account");
             statements.AddText("Error", String.valueOf(e), "RED");
         }
     }
 
-    public void EditAccount(String[] sliders) throws SQLException {
+    public void EditAccount(String[] sliders, String[] values) throws SQLException {
 
-
-        String table = database.GetStringTableValueFromDatabase("name", "agdb.table", "tableName", "ProfilEdycja");
-
-        System.out.println(table);
-
-        //    System.out.println(table);
-        //String[] slidersName = {""}
-      /* for(int a = 0; a <= sliders.length; a+*
-        {
-           // if(sliders[a] == )
+        try {
+            for (int a = 0; a < sliders.length; a++) {
+                if (sliders[a].equals("10") || sliders[a].equals("11") || sliders[a].equals("12") || sliders[a].equals("13")) {
+                    String name = database.GetStringTableValueFromDatabase("name", "agdb.table", "idTable", sliders[a]);
+                    System.out.println("Name: " + name);
+                    WebElementFindAndClick("Profil - Edycja", name, "Dropdown");
+                    WebElementFindAndClick("Profil - Edycja", name, "EditText");
+                    WebElementFindAndClick("Profil - Edycja", name, "Text");
+                } else {
+                    String name = database.GetStringTableValueFromDatabase("name", "agdb.table", "idTable", sliders[a]);
+                    System.out.println("Name: " + name);
+                    String xpath = database.GetStringValueFromDatabase("xpath", "xpath", "name", name);
+                    System.out.println(xpath);
+                    WebElementFindAndClickWithXpath(xpath);
+                }
+            }
+        } catch (Exception e) {
+            statements.TestFailed("Edit Account");
+            statements.AddText("Error", String.valueOf(e), "RED");
         }
-        */
+    }
+
+    public void EditAccountSave() throws SQLException {
+      try
+      {
+          WebElementFindAndClick("Profil - Edycja", "Zapisz", "Button");
+      }
+      catch(Exception e)
+      {
+          statements.TestFailed("EditAccountSave");
+          statements.AddText("Error", String.valueOf(e), "RED");
+      }
+    }
+
+    public void EditAccountCancel() throws SQLException {
+        try
+        {
+            WebElementFindAndClick("Profil - Edycja", "Cancel", "Button");
+        }
+
+        catch(Exception e)
+        {
+            statements.TestFailed("EditAccountCancel");
+            statements.AddText("Error", String.valueOf(e), "RED");
+        }
+    }
+
+    public void CheckEditAccount(String[] sliders) throws SQLException {
+        for (int a = 0; a < sliders.length; a++) {
+            String name = database.GetStringTableValueFromDatabase("name", "agdb.table", "idTable", sliders[a]);
+            System.out.println("Name: " + name);
+            String tekst = WebElementFindAndGetText("Profil - Edycja", name, "Text");
+            System.out.println(tekst);
+        }
     }
 }
