@@ -29,7 +29,7 @@ public class Testing {
         String numberUrl = "1"; // table: agdb.url
         String numberUser = "2"; // table agdb.login
         String nameMainDropdown = "Pracownicy"; // table agdb.maindropdown
-        String nameLateralDropdown = "Umowy"; // table agdb.lateraldropdown
+        String nameLateralDropdown = "Umowyx"; // table agdb.lateraldropdown
 
         String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
         String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
