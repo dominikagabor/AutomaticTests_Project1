@@ -101,41 +101,4 @@ public class Testing {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test
-    public void Scenario005_Profil() throws SQLException {
-
-        // For editing:
-        String numberUrl = "1"; // table: url
-        String numberUser = "2"; // table: login
-        String[] sliders = {"2"}; // table: table
-        String[] values = {"aa TEST"};
-
-        String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
-        String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
-        String password = database.GetStringValueFromDatabase("password", "login", "idUser", numberUser);
-        ChromeDriver();
-        statements.ScenarioTitle("Scenario005_Profil - Navigate");
-        methods.NavigateToPage(mainUrl);
-        System.out.println("---------------------------------------------------");
-        methods.Login(login, password);
-        System.out.println("---------------------------------------------------");
-        methods.NavigateToMainMenu("Profil", "Profil");
-      /*  System.out.println("---------------------------------------------------");
-        methods.TurnOn2FA();
-        System.out.println("---------------------------------------------------");
-        methods.NavigateToMainMenu("Profil", "Profil");
-        methods.ClickHereToDieInstantly();
-        System.out.println("---------------------------------------------------");
-        methods.NavigateToPageAlreadyLogin(mainUrl);
-        System.out.println("---------------------------------------------------");
-        methods.NavigateToMainMenu("Profil", "Profil");
-        System.out.println("---------------------------------------------------");
-
-       */
-        System.out.println("---------------------------------------------------");
-        methods.EditProfile();
-        methods.EditAccount(sliders, values);
-        methods.EditAccountSave();
-        methods.CheckEditAccount(sliders);
-    }
 }
