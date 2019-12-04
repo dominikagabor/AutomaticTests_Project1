@@ -91,4 +91,47 @@ public class Database {
         connection.close();
         return value;
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    String InsertStringValueFromDatabase(String table, String col, String valueInCol) throws SQLException {
+        String value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        String Query = "insert into " + table + " (" + col + ") values('" + valueInCol + "')";
+        st.executeUpdate(Query);
+        connection.close();
+        return value;
+    }
+
+    String InsertStringValueFromDatabase(String table, String col, String valueInCol, String col1, String valueInCol1) throws SQLException {
+        String value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        String Query = "insert into " + table + " (" + col + ", " + col1 + ") values('" + valueInCol + "', '" + valueInCol1 + "')";
+        st.executeUpdate(Query);
+        connection.close();
+        return value;
+    }
+
+    String InsertStringValueFromDatabase(String table, String col, String valueInCol, String col1, String valueInCol1, String col2, String valueInCol2) throws SQLException {
+        String value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        String Query = "insert into " + table + " (" + col + ", " + col1 + ", " + col2 + ") values('" + valueInCol + "', '" + valueInCol1 + "', '" + valueInCol2 +  "')";
+        st.executeUpdate(Query);
+        connection.close();
+        return value;
+    }
+
+    String InsertStringValueFromDatabase(String table, String col, String valueInCol, String col1, String valueInCol1, String col2, String valueInCol2, String col3, String valueInCol3) throws SQLException {
+        String value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        String Query = "insert into " + table + " (" + col + ", " + col1 + ", " + col2 + ", " + col3 + ") values('" + valueInCol + "', '" + valueInCol1 + "', '" + valueInCol2 + "', '" + valueInCol3 + "')";
+        st.executeUpdate(Query);
+        connection.close();
+        return value;
+    }
+
 }

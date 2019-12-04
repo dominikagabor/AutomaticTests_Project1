@@ -10,6 +10,7 @@ public class Testing {
     private Methods methods = new Methods();
     private Database database = new Database();
     private Statements statements = new Statements();
+    private AdministrationPermissions administrationPermissions = new AdministrationPermissions();
 
     // ChromeDriver:
     private WebDriver ChromeDriver() {
@@ -101,4 +102,23 @@ public class Testing {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Test
+    public void Scenarioxxxx() throws SQLException {
+        // For editing:
+        String numberUrl = "1"; // table: url
+        String numberUser = "2"; // table login
+
+        String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
+        String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
+        String password = database.GetStringValueFromDatabase("password", "login", "idUser", numberUser);
+        ChromeDriver();
+        statements.ScenarioTitle("Scenario004_NavigateToAllMainMenu");
+        methods.NavigateToPage(mainUrl);
+        System.out.println("---------------------------------------------------");
+        methods.Login(login, password);
+        System.out.println("---------------------------------------------------");
+        methods.NavigateToMainMenu("Administracja", "Uprawnienia");
+        System.out.println("---------------------------------------------------");
+        administrationPermissions.updateDatabase();
+    }
 }
