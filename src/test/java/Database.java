@@ -62,20 +62,39 @@ public class Database {
         return value;
     }
 
+    // Get count of element in table:
+    Integer GetCountFromTable(String table, String where, String whereValue) throws SQLException {
+        Integer value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        ResultSet result = st.executeQuery("select count(*) from " + table + " where " + where + " ='" + whereValue + "'");
+        while(result.next()) {
+            value = result.getInt(1);
+        }
+
+        connection.close();
+        return value;
+    }
+
+
     // // Get value with two 'where':
-    String GetStringTableValueFromDatabase(String select, String from, String where, String whereValue) throws SQLException {
+    String[] GetStringTableValueFromDatabase(String select, String from, String where, String whereValue) throws SQLException {
         String value = null;
         Connection connection = DriverManager.getConnection(connectionUrl, user, password);
         Statement st = connection.createStatement();
         ResultSet result = st.executeQuery("select " + select + " from " + from + " where " + where + "='" + whereValue + "'");
+
+        String[] table = new String[10];
+        int a = 0;
+
         while(result.next()) {
 
-            value = result.getString(1);
-
-
+              value = result.getString(1);
+              table[a] = value;
+              a++;
         }
         connection.close();
-        return value;
+        return table;
     }
 
     // Get count of element in table with where:

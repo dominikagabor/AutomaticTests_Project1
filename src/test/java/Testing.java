@@ -120,7 +120,9 @@ public class Testing {
         System.out.println("---------------------------------------------------");
         methods.NavigateToMainMenu("Administracja", "Uprawnienia");
         System.out.println("---------------------------------------------------");
-        administrationPermissions.updateDatabase("Pracownicy", "Administratorzy");
-        administrationPermissions.updateDatabase("Klienci", "Administratorzy");
+        database.DeleteTableFromDatabase();
+       // administrationPermissions.updateDatabase("Pracownicy", "Administratorzy");
+        //administrationPermissions.updateDatabase("Klienci", "Administratorzy");
+        administrationPermissions.updateDatabaseAll();
     }
 }

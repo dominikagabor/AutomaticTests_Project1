@@ -44,33 +44,58 @@ public class AdministrationPermissions {
     public void updateDatabase(String menu, String user) throws SQLException {
 
         try {
-
-            int a = 1;
-            int b = 1;
-            int c = 3;
-             database.DeleteTableFromDatabase();
-
+             int numberRow = 1;
              String numberXpath = database.GetStringValueFromDatabase("xpath", "xpath", "name", menu);
-             String xpathPartOne = database.GetStringValueFromDatabase("xpath", "xpath", "name", "menuxpathPartOne");
-             String xpathPartTwo = database.GetStringValueFromDatabase("xpath", "xpath", "name", "menuxpathPartTwo");
-             String xpathMenu = database
+             System.out.println(numberXpath);
+             String numberUser = database.GetStringValueFromDatabase("xpath", "xpath", "name", user);
+             System.out.println(numberUser);
 
                 do {
+                    String submenu = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]");
+                    String check = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]/span");
 
-                    String podmenu = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[1]/tbody/tr[" + b + "]/td[1]");
-                    System.out.println(podmenu);
-                    String check = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + a + "]/tbody/tr[" + b + "]/td[" + c + "]/span");
-                    System.out.println(check);
-
-                    database.InsertStringValueFromDatabase("administrationpermission", "menu", menu, "podmenu", podmenu, "user", user, "checkoruncheck", check);
-                    b++;
-
+                    database.InsertStringValueFromDatabase("administrationpermission", "menu", menu, "podmenu", submenu, "user", user, "checkoruncheck", check);
+                    numberRow++;
                 }
                 while(true);
 
         } catch (Exception e) {
             statements.TestFailed("Update Database");
             statements.AddText("Error", String.valueOf(e), "RED");
+        }
+    }
+
+    public void updateDatabaseAll() throws SQLException {
+
+        String[] menu = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions");
+        String[] user = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions-User");
+        for(int b = 0; b < user.length; b++ ) {
+            for (int a = 0; a < menu.length; a++) {
+                System.out.println(menu[a]);
+
+
+                try {
+                    int numberRow = 1;
+                    String numberXpath = database.GetStringValueFromDatabase("xpath", "xpath", "name", menu[a]);
+                    System.out.println(numberXpath);
+                    String numberUser = database.GetStringValueFromDatabase("xpath", "xpath", "name", user[b]);
+                    System.out.println(numberUser);
+
+                    do {
+                        String submenu = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]");
+                        String check = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]/span");
+
+                        database.InsertStringValueFromDatabase("administrationpermission", "menu", menu[a], "podmenu", submenu, "user", user[b], "checkoruncheck", check);
+                        numberRow++;
+                    }
+                    while (true);
+
+                } catch (Exception e) {
+                    statements.TestFailed("Update Database");
+                    statements.AddText("Error", String.valueOf(e), "RED");
+                }
+
+            }
         }
     }
 }
