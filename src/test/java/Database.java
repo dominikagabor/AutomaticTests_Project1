@@ -134,4 +134,16 @@ public class Database {
         return value;
     }
 
+    String DeleteTableFromDatabase() throws SQLException {
+        String value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        String Query = "SET SQL_SAFE_UPDATES = 0;";
+        st.executeUpdate(Query);
+        String Query1 = "DELETE FROM agdb.administrationpermission;";
+        st.executeUpdate(Query1);
+        connection.close();
+        return value;
+    }
+
 }

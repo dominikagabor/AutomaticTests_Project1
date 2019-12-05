@@ -46,34 +46,34 @@ class Methods {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Find WebElement:
-    private WebElement WebElementFind(String menu, String name, String type) throws SQLException {
+    WebElement WebElementFind(String menu, String name, String type) throws SQLException {
         String xpath = database.GetStringValueFromDatabase("xpath", "xpath", "menu", menu, "name", name, "type", type);
         return driver.findElement(By.xpath(xpath));
     }
 
     // Wait until you find the WebElement
-    private WebElement WebElementFindAndWait(String menu, String name, String type) throws SQLException {
+    WebElement WebElementFindAndWait(String menu, String name, String type) throws SQLException {
         String xpath = database.GetStringValueFromDatabase("xpath", "xpath", "menu", menu, "name", name, "type", type);
         Wait(xpath);
         return driver.findElement(By.xpath(xpath));
     }
 
     // Wait until you find the WebElement with xpath:
-    private WebElement WebElementFindWithXpath(String xpath) {
+    WebElement WebElementFindWithXpath(String xpath) {
         WebElement element = driver.findElement(By.xpath(xpath));
         Wait(xpath);
         return element;
     }
 
     // Wait until you find the WebElement and click WebElement:
-    private WebElement WebElementFindAndClick(String menu, String name, String type) throws SQLException {
+      WebElement WebElementFindAndClick(String menu, String name, String type) throws SQLException {
         WebElement element = WebElementFindAndWait(menu, name, type);
         element.click();
         return element;
     }
 
     // Wait until you find the WebElement with xpath and click WebElement:
-    private WebElement WebElementFindAndClickWithXpath(String xpath) {
+    WebElement WebElementFindAndClickWithXpath(String xpath) {
         WebElement element = driver.findElement(By.xpath(xpath));
         Wait(xpath);
         element.click();
@@ -81,27 +81,27 @@ class Methods {
     }
 
     // Wait until you find the WebElement, click WebElement and send keys:
-    private void WebElementFindAndClickAndSendKeys(String menu, String name, String type, String sendKeys) throws SQLException {
+    void WebElementFindAndClickAndSendKeys(String menu, String name, String type, String sendKeys) throws SQLException {
         WebElement element = WebElementFindAndClick(menu, name, type);
         element.clear();
         element.sendKeys(sendKeys);
     }
 
     // Wait until you find the WebElement, click WebElement and send keys:
-    private void WebElementFindAndClickAndSendKeysWithXpath(String xpath, String sendKeys) throws SQLException {
+    void WebElementFindAndClickAndSendKeysWithXpath(String xpath, String sendKeys) throws SQLException {
         WebElement element = driver.findElement(By.xpath(xpath));
         element.clear();
         element.sendKeys(sendKeys);
     }
 
     // Wait until you find the WebElement and get text:
-    private String WebElementFindAndGetText(String menu, String name, String type) throws SQLException {
+    String WebElementFindAndGetText(String menu, String name, String type) throws SQLException {
         WebElement element = WebElementFindAndWait(menu, name, type);
         return element.getText();
     }
 
     // Wait until you find the WebElement and get text:
-    private String WebElementFindAndGetTextWithXpath(String xpath) throws SQLException {
+    String WebElementFindAndGetTextWithXpath(String xpath) throws SQLException {
         WebElement element = driver.findElement(By.xpath(xpath));
         return element.getText();
     }
