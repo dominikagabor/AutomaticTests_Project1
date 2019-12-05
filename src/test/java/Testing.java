@@ -18,6 +18,7 @@ public class Testing {
         WebDriver driver = new ChromeDriver();
         methods.TransferDriver(driver);
         statements.TransferDriver(driver);
+        administrationPermissions.TransferDriver(driver);
         return driver;
     }
 
