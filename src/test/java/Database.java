@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
 
@@ -78,23 +80,23 @@ public class Database {
 
 
     // // Get value with two 'where':
-    String[] GetStringTableValueFromDatabase(String select, String from, String where, String whereValue) throws SQLException {
+    List<String> GetStringTableValueFromDatabase(String select, String from, String where, String whereValue) throws SQLException {
         String value = null;
         Connection connection = DriverManager.getConnection(connectionUrl, user, password);
         Statement st = connection.createStatement();
         ResultSet result = st.executeQuery("select " + select + " from " + from + " where " + where + "='" + whereValue + "'");
 
-        String[] table = new String[10];
+        List<String> list = new ArrayList<String>();
         int a = 0;
 
         while(result.next()) {
 
               value = result.getString(1);
-              table[a] = value;
+              list.add(value);
               a++;
         }
         connection.close();
-        return table;
+        return list;
     }
 
     // Get count of element in table with where:

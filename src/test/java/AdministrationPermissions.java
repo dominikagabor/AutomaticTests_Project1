@@ -5,6 +5,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdministrationPermissions {
 
@@ -67,34 +69,43 @@ public class AdministrationPermissions {
 
     public void updateDatabaseAll() throws SQLException {
 
-        String[] menu = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions");
-        String[] user = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions-User");
-        for(int b = 0; b < user.length; b++ ) {
-            for (int a = 0; a < menu.length; a++) {
-                System.out.println(menu[a]);
+        List<String> menu = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions");
+        List<String> user = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions-User");
 
-
+        for(int b = 0; b < user.size(); b++ ) {
+            System.out.println(user.get(b));
+            for (int a = 0; a < menu.size(); a++) {
+                System.out.println(menu.get(a));
                 try {
+
                     int numberRow = 1;
-                    String numberXpath = database.GetStringValueFromDatabase("xpath", "xpath", "name", menu[a]);
-                    System.out.println(numberXpath);
-                    String numberUser = database.GetStringValueFromDatabase("xpath", "xpath", "name", user[b]);
-                    System.out.println(numberUser);
+                    String numberXpath = database.GetStringValueFromDatabase("xpath", "xpath", "name", menu.get(a));
+                    String numberUser = database.GetStringValueFromDatabase("xpath", "xpath", "name", user.get(b));
 
                     do {
-                        String submenu = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]");
-                        String check = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]/span");
 
-                        database.InsertStringValueFromDatabase("administrationpermission", "menu", menu[a], "podmenu", submenu, "user", user[b], "checkoruncheck", check);
+                        String partOne = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part", "name", "partOne");
+                        String partTwo = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part", "name", "partTwo");
+                        String partThree = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part","name", "partThree");
+                        String partFour = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part","name", "partFour");
+                        String partFive = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part","name", "partFive");
+
+                        String submenu = WebElementFindAndGetTextWithXpath(partOne + numberXpath + partTwo + numberRow + partThree);
+                        String check = WebElementFindAndGetTextWithXpath(partOne + numberXpath + partTwo + numberRow + partFour + numberUser + partFive);
+
+                       statements.AddText("Menu", menu.get(a), "BLUE");
+                       statements.AddText("Submenu", submenu, "BLUE");
+                       statements.AddText("User", user.get(b), "BLUE");
+                       statements.AddText("Check", check, "BLUE");
+                       System.out.println("---------------------------------------------------");
+
+                        database.InsertStringValueFromDatabase("administrationpermission", "menu", menu.get(a), "podmenu", submenu, "user", user.get(b), "checkoruncheck", check);
                         numberRow++;
                     }
                     while (true);
 
                 } catch (Exception e) {
-                    statements.TestFailed("Update Database");
-                    statements.AddText("Error", String.valueOf(e), "RED");
                 }
-
             }
         }
     }

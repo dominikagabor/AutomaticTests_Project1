@@ -57,6 +57,10 @@ public class Statements {
         if(color.equals("RED")) {
             System.out.println(ANSI_RED + mainText + ": " + ANSI_RESET + text);
         }
+
+        if(color.equals("BLUE")) {
+            System.out.println(ANSI_BLUE + mainText + ": " + ANSI_RESET + text);
+        }
     }
 
     // Add text with the number of elements:
