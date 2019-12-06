@@ -123,6 +123,6 @@ public class Testing {
         database.DeleteTableFromDatabase();
        // administrationPermissions.updateDatabase("Pracownicy", "Administratorzy");
         //administrationPermissions.updateDatabase("Klienci", "Administratorzy");
-        administrationPermissions.updateDatabaseAll();
+        administrationPermissions.updateDatabaseAll("Administration-Permissions");
     }
 }

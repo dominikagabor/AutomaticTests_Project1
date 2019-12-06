@@ -26,22 +26,7 @@ public class AdministrationPermissions {
         statements.TransferDriver(driver);
     }
 
-    // Wait for a specific item:
-    private void Wait(String xpath) {
-        WebDriverWait wait = new WebDriverWait(driver, 10000);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
-    }
-
-
-    // Wait until you find the WebElement and get text:
-    private String WebElementFindAndGetTextWithXpath(String xpath) throws SQLException {
-        WebElement element = driver.findElement(By.xpath(xpath));
-        Wait(xpath);
-        return element.getText();
-
-    }
-
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void updateDatabase(String menu, String user) throws SQLException {
 
@@ -53,8 +38,8 @@ public class AdministrationPermissions {
              System.out.println(numberUser);
 
                 do {
-                    String submenu = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]");
-                    String check = WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]/span");
+                    String submenu = methods.WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]");
+                    String check = methods.WebElementFindAndGetTextWithXpath("/html/body/div[2]/div[2]/table[" + numberXpath + "]/tbody/tr[" + numberRow + "]/td[" + numberUser + "]/span");
 
                     database.InsertStringValueFromDatabase("administrationpermission", "menu", menu, "podmenu", submenu, "user", user, "checkoruncheck", check);
                     numberRow++;
@@ -67,31 +52,42 @@ public class AdministrationPermissions {
         }
     }
 
-    public void updateDatabaseAll() throws SQLException {
+    // Wait until you find the WebElement and get text:
+    String WebElementFindAndGetTextWithXpath(String xpath) throws SQLException {
+        WebElement element = driver.findElement(By.xpath(xpath));
+        return element.getText();
+    }
+
+    public void updateDatabaseAll(String table) throws SQLException {
+
+        String part = "";
+        if(table.equals("Administration-Permissions"))
+        {
+            part = "Administration-Permissions-Part";
+        }
 
         List<String> menu = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions");
         List<String> user = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions-User");
 
         for(int b = 0; b < user.size(); b++ ) {
-            System.out.println(user.get(b));
             for (int a = 0; a < menu.size(); a++) {
-                System.out.println(menu.get(a));
                 try {
 
                     int numberRow = 1;
                     String numberXpath = database.GetStringValueFromDatabase("xpath", "xpath", "name", menu.get(a));
+                    System.out.println(numberXpath);
                     String numberUser = database.GetStringValueFromDatabase("xpath", "xpath", "name", user.get(b));
 
                     do {
 
-                        String partOne = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part", "name", "partOne");
-                        String partTwo = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part", "name", "partTwo");
-                        String partThree = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part","name", "partThree");
-                        String partFour = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part","name", "partFour");
-                        String partFive = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-Permissions-Part","name", "partFive");
+                        String partOne = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partOne");
+                        String partTwo = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partTwo");
+                        String partThree = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partThree");
+                        String partFour = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partFour");
+                        String partFive = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partFive");
 
-                        String submenu = WebElementFindAndGetTextWithXpath(partOne + numberXpath + partTwo + numberRow + partThree);
                         String check = WebElementFindAndGetTextWithXpath(partOne + numberXpath + partTwo + numberRow + partFour + numberUser + partFive);
+                        String submenu = WebElementFindAndGetTextWithXpath(partOne + numberXpath + partTwo + numberRow + partThree);
 
                        statements.AddText("Menu", menu.get(a), "BLUE");
                        statements.AddText("Submenu", submenu, "BLUE");
@@ -105,9 +101,14 @@ public class AdministrationPermissions {
                     while (true);
 
                 } catch (Exception e) {
+                    statements.AddText("Error", String.valueOf(e), "RED");
                 }
             }
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 }
 
