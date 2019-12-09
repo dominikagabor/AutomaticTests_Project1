@@ -1,3 +1,4 @@
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -134,17 +135,24 @@ public class AdministrationPermissions {
     public void updateDatabaseAll(String table) throws SQLException {
 
         String part = "";
+        String check = "brak";
+        String numberCheck = "";
+
         if(table.equals("Administration-Permissions"))
         {
             part = "Administration-Permissions-Part";
             table = "administrationpermission";
+            System.out.println("AP im here");
+            numberCheck = "1";
+
         }
 
-        if(table.equals("Administration-Permissions-Edit"))
-        {
+        if(table.equals("Administration-Permissions-Edit")) {
             part = "Administration-Permissions-Part-Edit";
             table = "administrationpermissionedit";
             EditPermissions();
+            System.out.println("APE im here");
+            numberCheck = "2";
         }
 
         List<String> menu = database.GetStringTableValueFromDatabase("name", "xpath", "menu", "Administration-Permissions");
@@ -161,13 +169,32 @@ public class AdministrationPermissions {
 
                     do {
 
+
+
                         String partOne = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partOne");
                         String partTwo = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partTwo");
                         String partThree = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partThree");
                         String partFour = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partFour");
                         String partFive = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partFive");
 
-                        String check = WebElementFindAndGetTextWithXpath(partOne + numberXpath + partTwo + numberRow + partFour + numberUser + partFive);
+                        if(numberCheck.equals("1"))
+                        {
+                            check = WebElementFindAndGetTextWithXpath(partOne + numberXpath + partTwo + numberRow + partFour + numberUser + partFive);
+
+                        }
+                        if(numberCheck.equals("2"))
+                        {
+                            Boolean isTrueOrFalse = driver.findElement(By.xpath(partOne + numberXpath + partTwo + numberRow + partFour + numberUser + partFive)).isSelected();
+                            System.out.println(isTrueOrFalse);
+                            if (isTrueOrFalse) {
+                                check = "Tak";
+                            }
+
+                            if (!isTrueOrFalse) {
+                                check = "Nie";
+                            }
+                        }
+
                         String submenu = WebElementFindAndGetTextWithXpath(partOne + numberXpath + partTwo + numberRow + partThree);
 
                        statements.AddText("Menu", menu.get(a), "BLUE");
@@ -187,6 +214,42 @@ public class AdministrationPermissions {
                 }
             }
         }
+
+
+    }
+
+
+    public void Check() throws SQLException {
+
+        List<String> check1 = database.GetStringTableValueFromDatabase("checkoruncheck", "administrationpermissionedit");
+        List<String> submenu1 = database.GetStringTableValueFromDatabase("submenu", "administrationpermissionedit");
+        List<String> check2 = database.GetStringTableValueFromDatabase("checkoruncheck", "administrationpermission");
+        List<String> submenu2 = database.GetStringTableValueFromDatabase("submenu", "administrationpermission");
+
+       for(int a = 1; a <= check1.size(); a++)
+       {
+           String odp1 = check1.get(a);
+           String odp2 = check2.get(a);
+
+           String odp1a = submenu1.get(a);
+           String odp2a = submenu2.get(a);
+
+           if(odp1.equals(odp2))
+           {
+               System.out.println("OK");
+           }
+
+           else
+           {
+               System.out.println("====================");
+               System.out.println("ŹLE");
+               System.out.println(odp1);
+               System.out.println(odp1a);
+               System.out.println(odp2);
+               System.out.println(odp2a);
+               System.out.println("====================");
+           }
+       }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

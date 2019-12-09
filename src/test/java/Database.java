@@ -78,6 +78,25 @@ public class Database {
         return value;
     }
 
+    // // Get value with two 'where':
+    List<String> GetStringTableValueFromDatabase(String select, String from) throws SQLException {
+        String value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        ResultSet result = st.executeQuery("select " + select + " from " + from);
+
+        List<String> list = new ArrayList<String>();
+        int a = 0;
+
+        while(result.next()) {
+
+            value = result.getString(1);
+            list.add(value);
+            a++;
+        }
+        connection.close();
+        return list;
+    }
 
     // // Get value with two 'where':
     List<String> GetStringTableValueFromDatabase(String select, String from, String where, String whereValue) throws SQLException {
@@ -98,6 +117,22 @@ public class Database {
         connection.close();
         return list;
     }
+
+
+    // Get count of element in table:
+    Integer GetCountFromTableWhere(String table) throws SQLException {
+        Integer value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        ResultSet result = st.executeQuery("select count(*) from " + table);
+        while(result.next()) {
+            value = result.getInt(1);
+        }
+
+        connection.close();
+        return value;
+    }
+
 
     // Get count of element in table with where:
     Integer GetCountFromTableWhere(String table, String where, String whereValue) throws SQLException {
@@ -155,13 +190,13 @@ public class Database {
         return value;
     }
 
-    String DeleteTableFromDatabase() throws SQLException {
+    String DeleteTableFromDatabase(String table) throws SQLException {
         String value = null;
         Connection connection = DriverManager.getConnection(connectionUrl, user, password);
         Statement st = connection.createStatement();
         String Query = "SET SQL_SAFE_UPDATES = 0;";
         st.executeUpdate(Query);
-        String Query1 = "DELETE FROM agdb.administrationpermission;";
+        String Query1 = "DELETE FROM agdb." + table + ";";
         st.executeUpdate(Query1);
         connection.close();
         return value;
