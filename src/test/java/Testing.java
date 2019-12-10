@@ -120,13 +120,13 @@ public class Testing {
         System.out.println("---------------------------------------------------");
         methods.NavigateToMainMenu("Administracja", "Uprawnienia");
         System.out.println("---------------------------------------------------");
-     //   database.DeleteTableFromDatabase("administrationpermission");
-      //  database.DeleteTableFromDatabase("administrationpermissionedit");
-        administrationPermissions.updateDatabaseAll("Administration-Permissions");
-        administrationPermissions.updateDatabaseAll("Administration-Permissions-Edit");
+     //  database.DeleteTableFromDatabase("administrationpermission");
+     //  database.DeleteTableFromDatabase("administrationpermissionedit");
+   //    administrationPermissions.updateDatabaseAll("Administration-Permissions");
+     // administrationPermissions.updateDatabaseAll("Administration-Permissions-Edit");
        // administrationPermissions.updateDatabase("Pracownicy", "Administratorzy");
         //administrationPermissions.updateDatabase("Klienci", "Administratorzy");
        // administrationPermissions.updateDatabaseAll("Administration-Permissions-Edit");
-       // administrationPermissions.Check();
+        administrationPermissions.Check();
     }
 }

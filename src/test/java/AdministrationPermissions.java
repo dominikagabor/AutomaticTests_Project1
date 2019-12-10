@@ -185,6 +185,7 @@ public class AdministrationPermissions {
                         if(numberCheck.equals("2"))
                         {
                             Boolean isTrueOrFalse = driver.findElement(By.xpath(partOne + numberXpath + partTwo + numberRow + partFour + numberUser + partFive)).isSelected();
+                            System.out.println(partOne + numberXpath + partTwo + numberRow + partFour + numberUser + partFive);
                             System.out.println(isTrueOrFalse);
                             if (isTrueOrFalse) {
                                 check = "Tak";
@@ -225,8 +226,10 @@ public class AdministrationPermissions {
         List<String> submenu1 = database.GetStringTableValueFromDatabase("submenu", "administrationpermissionedit");
         List<String> check2 = database.GetStringTableValueFromDatabase("checkoruncheck", "administrationpermission");
         List<String> submenu2 = database.GetStringTableValueFromDatabase("submenu", "administrationpermission");
+        int goodScore = 0;
+        int wrongScore = 0;
 
-       for(int a = 1; a <= check1.size(); a++)
+       for(int a = 0; a < check1.size(); a++)
        {
            String odp1 = check1.get(a);
            String odp2 = check2.get(a);
@@ -236,20 +239,20 @@ public class AdministrationPermissions {
 
            if(odp1.equals(odp2))
            {
-               System.out.println("OK");
+               statements.AddTextNumber("Check", a+1, check1.size(), "GREEN");
+               goodScore++;
            }
 
            else
            {
-               System.out.println("====================");
-               System.out.println("ŹLE");
-               System.out.println(odp1);
-               System.out.println(odp1a);
-               System.out.println(odp2);
-               System.out.println(odp2a);
-               System.out.println("====================");
+               statements.AddTextNumber("Check", a+1, check1.size(), "RED");
+               wrongScore++;
            }
        }
+
+        statements.AddText("Summary", "Check Administration Permissions", "BLUE");
+        statements.AddTextNumber("Good", goodScore, check1.size(), "GREEN");
+        statements.AddTextNumber("Wrong", wrongScore, check1.size(), "RED");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
