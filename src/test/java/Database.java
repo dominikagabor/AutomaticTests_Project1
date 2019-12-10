@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Database {
 
+    private Statements statements = new Statements();
+
     // Data to connect to the database:
     private String user = "dgabor";
     private String password = "root";
@@ -199,7 +201,7 @@ public class Database {
         String Query1 = "DELETE FROM agdb." + table + ";";
         st.executeUpdate(Query1);
         connection.close();
+
         return value;
     }
-
 }

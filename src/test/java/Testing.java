@@ -104,7 +104,7 @@ public class Testing {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
-    public void Scenarioxxxx() throws SQLException {
+    public void Scenario005_CheckAdministrationPermission() throws SQLException {
         // For editing:
         String numberUrl = "1"; // table: url
         String numberUser = "2"; // table login
@@ -113,20 +113,21 @@ public class Testing {
         String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
         String password = database.GetStringValueFromDatabase("password", "login", "idUser", numberUser);
         ChromeDriver();
-        statements.ScenarioTitle("Scenario004_NavigateToAllMainMenu");
+        statements.ScenarioTitle("Scenario005_CheckAdministrationPermission");
         methods.NavigateToPage(mainUrl);
         System.out.println("---------------------------------------------------");
         methods.Login(login, password);
         System.out.println("---------------------------------------------------");
         methods.NavigateToMainMenu("Administracja", "Uprawnienia");
         System.out.println("---------------------------------------------------");
-     //  database.DeleteTableFromDatabase("administrationpermission");
-     //  database.DeleteTableFromDatabase("administrationpermissionedit");
-   //    administrationPermissions.updateDatabaseAll("Administration-Permissions");
-     // administrationPermissions.updateDatabaseAll("Administration-Permissions-Edit");
-       // administrationPermissions.updateDatabase("Pracownicy", "Administratorzy");
-        //administrationPermissions.updateDatabase("Klienci", "Administratorzy");
-       // administrationPermissions.updateDatabaseAll("Administration-Permissions-Edit");
+        database.DeleteTableFromDatabase("administrationpermission");
+        System.out.println("---------------------------------------------------");
+        database.DeleteTableFromDatabase("administrationpermissionedit");
+        System.out.println("---------------------------------------------------");
+        administrationPermissions.updateDatabaseAll("Administration-Permissions");
+        System.out.println("---------------------------------------------------");
+        administrationPermissions.updateDatabaseAll("Administration-Permissions-Edit");
+        System.out.println("---------------------------------------------------");
         administrationPermissions.Check();
     }
 }
