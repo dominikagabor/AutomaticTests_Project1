@@ -27,8 +27,6 @@ public class AdministrationPermissions {
         statements.TransferDriver(driver);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     // Wait for a specific item:
     private void Wait(String xpath) {
         WebDriverWait wait = new WebDriverWait(driver, 10000);
@@ -41,13 +39,15 @@ public class AdministrationPermissions {
         driver.quit();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // Find WebElement:
     WebElement WebElementFind(String menu, String name, String type) throws SQLException {
         String xpath = database.GetStringValueFromDatabase("xpath", "xpath", "menu", menu, "name", name, "type", type);
         return driver.findElement(By.xpath(xpath));
     }
 
-    // Wait until you find the WebElement
+    // Wait until you find the WebElement:
     WebElement WebElementFindAndWait(String menu, String name, String type) throws SQLException {
         String xpath = database.GetStringValueFromDatabase("xpath", "xpath", "menu", menu, "name", name, "type", type);
         Wait(xpath);
@@ -68,7 +68,7 @@ public class AdministrationPermissions {
         return element;
     }
 
-    // Wait until you find the WebElement with xpath and click WebElement:
+    // Wait until you find the WebElement and click WebElement with xpath:
     WebElement WebElementFindAndClickWithXpath(String xpath) {
         WebElement element = driver.findElement(By.xpath(xpath));
         Wait(xpath);
@@ -83,7 +83,7 @@ public class AdministrationPermissions {
         element.sendKeys(sendKeys);
     }
 
-    // Wait until you find the WebElement, click WebElement and send keys:
+    // Wait until you find the WebElement, click WebElement and send keys with xpath:
     void WebElementFindAndClickAndSendKeysWithXpath(String xpath, String sendKeys) throws SQLException {
         WebElement element = driver.findElement(By.xpath(xpath));
         element.clear();
@@ -96,7 +96,7 @@ public class AdministrationPermissions {
         return element.getText();
     }
 
-    // Wait until you find the WebElement and get text:
+    // Wait until you find the WebElement and get text with xpath:
     String WebElementFindAndGetTextWithXpath(String xpath) throws SQLException {
         WebElement element = driver.findElement(By.xpath(xpath));
         return element.getText();
@@ -104,6 +104,7 @@ public class AdministrationPermissions {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // Download values from checkboxes to the selected tab to the database:
     public void updateDatabase(String menu, String user) throws SQLException {
 
         try {
@@ -128,10 +129,12 @@ public class AdministrationPermissions {
         }
     }
 
+    // Click the Edit Button:
     public void EditPermissions() throws SQLException {
         WebElementFindAndClick("Administration-Permissions-Edit", "Edytuj", "Button");
     }
 
+    // Download values from checkboxes to the database:
     public void updateDatabaseAll(String table) throws SQLException {
 
         String part = "";
@@ -144,7 +147,6 @@ public class AdministrationPermissions {
             table = "administrationpermission";
             System.out.println("AP im here");
             numberCheck = "1";
-
         }
 
         if(table.equals("Administration-Permissions-Edit")) {
@@ -168,9 +170,6 @@ public class AdministrationPermissions {
                     String numberUser = database.GetStringValueFromDatabase("xpath", "xpath", "name", user.get(b));
 
                     do {
-
-
-
                         String partOne = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partOne");
                         String partTwo = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partTwo");
                         String partThree = database.GetStringValueFromDatabase("xpath", "xpath", "menu", part, "name", "partThree");
@@ -215,17 +214,14 @@ public class AdministrationPermissions {
                 }
             }
         }
-
-
     }
 
-
+    // Check compatibility:
     public void Check() throws SQLException {
 
         List<String> check1 = database.GetStringTableValueFromDatabase("checkoruncheck", "administrationpermissionedit");
-        List<String> submenu1 = database.GetStringTableValueFromDatabase("submenu", "administrationpermissionedit");
         List<String> check2 = database.GetStringTableValueFromDatabase("checkoruncheck", "administrationpermission");
-        List<String> submenu2 = database.GetStringTableValueFromDatabase("submenu", "administrationpermission");
+
         int goodScore = 0;
         int wrongScore = 0;
 
@@ -233,9 +229,6 @@ public class AdministrationPermissions {
        {
            String odp1 = check1.get(a);
            String odp2 = check2.get(a);
-
-           String odp1a = submenu1.get(a);
-           String odp2a = submenu2.get(a);
 
            if(odp1.equals(odp2))
            {
@@ -254,9 +247,5 @@ public class AdministrationPermissions {
         statements.AddTextNumber("Good", goodScore, check1.size(), "GREEN");
         statements.AddTextNumber("Wrong", wrongScore, check1.size(), "RED");
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 }
 

@@ -11,6 +11,7 @@ public class Testing {
     private Database database = new Database();
     private Statements statements = new Statements();
     private AdministrationPermissions administrationPermissions = new AdministrationPermissions();
+    private AdministrationItemCategories administrationItemCategories = new AdministrationItemCategories();
 
     // ChromeDriver:
     private WebDriver ChromeDriver() {
@@ -19,6 +20,7 @@ public class Testing {
         methods.TransferDriver(driver);
         statements.TransferDriver(driver);
         administrationPermissions.TransferDriver(driver);
+        administrationItemCategories.TransferDriver(driver);
         return driver;
     }
 
@@ -103,7 +105,7 @@ public class Testing {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test
+    //@Test
     public void Scenario005_CheckAdministrationPermission() throws SQLException {
         // For editing:
         String numberUrl = "1"; // table: url
@@ -129,5 +131,28 @@ public class Testing {
         administrationPermissions.updateDatabaseAll("Administration-Permissions-Edit");
         System.out.println("---------------------------------------------------");
         administrationPermissions.Check();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void Scenario006_xxx() throws SQLException {
+        // For editing:
+        String numberUrl = "1"; // table: url
+        String numberUser = "2"; // table login
+
+        String mainUrl = database.GetStringValueFromDatabase("url", "url", "idUrl", numberUrl);
+        String login = database.GetStringValueFromDatabase("login", "login", "idUser", numberUser);
+        String password = database.GetStringValueFromDatabase("password", "login", "idUser", numberUser);
+        ChromeDriver();
+        statements.ScenarioTitle("Scenario005_CheckAdministrationPermission");
+        methods.NavigateToPage(mainUrl);
+        System.out.println("---------------------------------------------------");
+        methods.Login(login, password);
+        System.out.println("---------------------------------------------------");
+        methods.NavigateToMainMenu("Administracja", "Kategorie przedmiotów");
+        System.out.println("---------------------------------------------------");
+        administrationItemCategories.Add("test", "test", "test");
+        System.out.println("---------------------------------------------------");
     }
 }
