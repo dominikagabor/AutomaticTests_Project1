@@ -152,7 +152,10 @@ public class Testing {
         System.out.println("---------------------------------------------------");
         methods.NavigateToMainMenu("Administracja", "Kategorie przedmiotów");
         System.out.println("---------------------------------------------------");
-        administrationItemCategories.Add("test", "test", "test");
+        //administrationItemCategories.Add("test", "test", "#5e2525");
+        //System.out.println("---------------------------------------------------");
+        //database.DeleteTableFromDatabase("administrationitemcategories");
+        administrationItemCategories.Check();
         System.out.println("---------------------------------------------------");
     }
 }

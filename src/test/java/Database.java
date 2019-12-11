@@ -101,11 +101,11 @@ public class Database {
     }
 
     // // Get value with two 'where':
-    List<String> GetStringTableValueFromDatabase(String select, String from, String where, String whereValue) throws SQLException {
+    List<String> GetStringTableValueFromDatabase(String select, String from, String where, String whereValue, String where1, String whereValue1) throws SQLException {
         String value = null;
         Connection connection = DriverManager.getConnection(connectionUrl, user, password);
         Statement st = connection.createStatement();
-        ResultSet result = st.executeQuery("select " + select + " from " + from + " where " + where + "='" + whereValue + "'");
+        ResultSet result = st.executeQuery("select " + select + " from " + from + " where " + where + "='" + whereValue + "' and " + where1 + "='" + whereValue1 + "'");
 
         List<String> list = new ArrayList<String>();
         int a = 0;
@@ -119,6 +119,27 @@ public class Database {
         connection.close();
         return list;
     }
+
+    // // Get value with two 'where':
+    List<String> GetStringTableValueFromDatabase(String select, String from, String where, String whereValue) throws SQLException {
+        String value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        ResultSet result = st.executeQuery("select " + select + " from " + from + " where " + where + "='" + whereValue + "'");
+
+        List<String> list = new ArrayList<String>();
+        int a = 0;
+
+        while(result.next()) {
+
+            value = result.getString(1);
+            list.add(value);
+            a++;
+        }
+        connection.close();
+        return list;
+    }
+
 
 
     // Get count of element in table:

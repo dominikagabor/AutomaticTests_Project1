@@ -76,7 +76,6 @@ public class AdministrationItemCategories {
     // Wait until you find the WebElement, click WebElement and send keys:
     void WebElementFindAndClickAndSendKeys(String menu, String name, String type, String sendKeys) throws SQLException {
         WebElement element = WebElementFindAndClick(menu, name, type);
-        element.clear();
         element.sendKeys(sendKeys);
     }
 
@@ -102,10 +101,44 @@ public class AdministrationItemCategories {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    public void Add(String name, String shortcut, String colour) throws SQLException {
-        WebElementFindAndClick("Administration-ItemCategories", "Dodaj", "Button");
-        WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Nazwa", "Button", name);
-        WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Skrót", "Button", shortcut);
-        WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Kolor", "Button", colour);
+    public void Add(String name, String shortcut, String color) throws SQLException {
+      try {
+          WebElementFindAndClick("Administration-ItemCategories", "Dodaj", "Button");
+          statements.TestPassed("AdministrationItemCategories - Add");
+
+          WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Nazwa", "EditText", name);
+          statements.TestPassed("AdministrationItemCategoriesAdd - Nazwa");
+          WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Skrót", "EditText", shortcut);
+          statements.TestPassed("AdministrationItemCategoriesAdd - Skrót");
+
+          //todo - color
+
+          WebElementFindAndClick("Administration-ItemCategories-Add", "Dodaj", "Button");
+
+      }
+      catch(Exception e)
+      {
+          statements.AddText("Error", String.valueOf(e), "RED");
+      }
+    }
+
+    public void Check() throws SQLException {
+       try
+       {
+           for(int a = 1; a <= 100; a++)
+           {
+               String partOne = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-ItemCategories", "name", "partOne");
+               String partTwo = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-ItemCategories", "name", "partTwo");
+               String partThree = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-ItemCategories", "name", "partThree");
+               //String nameXpath = partOne + a + partTwo + b + partThree;
+            //   String name = WebElementFindAndGetTextWithXpath(nameXpath);
+            //   database.InsertStringValueFromDatabase("administrationitemcategories", "nazwa", name);
+
+           }
+       }
+       catch(Exception e)
+       {
+           statements.AddText("Error", String.valueOf(e), "RED");
+       }
     }
 }
