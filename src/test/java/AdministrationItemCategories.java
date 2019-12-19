@@ -4,7 +4,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AdministrationItemCategories {
 
@@ -102,43 +104,45 @@ public class AdministrationItemCategories {
 
 
     public void Add(String name, String shortcut, String color) throws SQLException {
-      try {
-          WebElementFindAndClick("Administration-ItemCategories", "Dodaj", "Button");
-          statements.TestPassed("AdministrationItemCategories - Add");
+        try {
+            WebElementFindAndClick("Administration-ItemCategories", "Dodaj", "Button");
+            statements.TestPassed("AdministrationItemCategories - Add");
 
-          WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Nazwa", "EditText", name);
-          statements.TestPassed("AdministrationItemCategoriesAdd - Nazwa");
-          WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Skrót", "EditText", shortcut);
-          statements.TestPassed("AdministrationItemCategoriesAdd - Skrót");
+            WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Nazwa", "EditText", name);
+            statements.TestPassed("AdministrationItemCategoriesAdd - Nazwa");
+            WebElementFindAndClickAndSendKeys("Administration-ItemCategories-Add", "Skrót", "EditText", shortcut);
+            statements.TestPassed("AdministrationItemCategoriesAdd - Skrót");
 
-          //todo - color
+            //todo - color
 
-          WebElementFindAndClick("Administration-ItemCategories-Add", "Dodaj", "Button");
+            WebElementFindAndClick("Administration-ItemCategories-Add", "Dodaj", "Button");
 
-      }
-      catch(Exception e)
-      {
-          statements.AddText("Error", String.valueOf(e), "RED");
-      }
+        } catch (Exception e) {
+            statements.AddText("Error", String.valueOf(e), "RED");
+        }
     }
 
-    public void Check() throws SQLException {
-       try
-       {
-           for(int a = 1; a <= 100; a++)
-           {
-               String partOne = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-ItemCategories", "name", "partOne");
-               String partTwo = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-ItemCategories", "name", "partTwo");
-               String partThree = database.GetStringValueFromDatabase("xpath", "xpath", "menu", "Administration-ItemCategories", "name", "partThree");
-               //String nameXpath = partOne + a + partTwo + b + partThree;
-            //   String name = WebElementFindAndGetTextWithXpath(nameXpath);
-            //   database.InsertStringValueFromDatabase("administrationitemcategories", "nazwa", name);
+    public void Check(String tableInMySQL) throws SQLException {
 
-           }
-       }
-       catch(Exception e)
-       {
-           statements.AddText("Error", String.valueOf(e), "RED");
-       }
+        database.CreateTable(tableInMySQL);
+        int a = 2;
+        do {
+            String column = WebElementFindAndGetTextWithXpath("/html/body/div[2]/table/thead/tr/th[" + a + "]");
+            Boolean value = database.ExistsColumn(column, tableInMySQL);
+            if (!value) {
+                if (!column.equals("")) {
+                    database.AddColumnToTable(tableInMySQL, column, "VARCHAR(250)");
+                }
+                statements.AddText("Column added", column, "GREEN");
+            }
+            else
+            {
+                statements.AddText("The column exists in the table", column, "GREEN");
+            }
+            a++;
+        }
+            while(true);
+        }
     }
-}
+
+

@@ -225,4 +225,39 @@ public class Database {
 
         return value;
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void CreateTable(String table) throws SQLException
+    {
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        st.execute("CREATE TABLE IF NOT EXISTS " + table + " (id INT)");
+        connection.close();
+    }
+    Boolean ExistsColumn(String column, String table) throws SQLException
+    {
+        Boolean value = null;
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+      try
+      {
+          ResultSet result = st.executeQuery("select " + column + " from " + table);
+          value = true;
+      }
+      catch(Exception e)
+      {
+          value = false;
+      }
+
+      return value;
+    }
+
+    void AddColumnToTable(String table, String nameColumn, String typeColumn) throws SQLException
+    {
+        Connection connection = DriverManager.getConnection(connectionUrl, user, password);
+        Statement st = connection.createStatement();
+        st.execute("ALTER TABLE " + table + " ADD " + nameColumn + " " + typeColumn + ";");
+        connection.close();
+}
 }
